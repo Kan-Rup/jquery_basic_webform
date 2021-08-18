@@ -14,8 +14,8 @@ There has to be a simple form with the below elements:
   single select dropdown - label:preferred language, required: yes  
   checkbox - label: agree to terms, required:yes
   
-  >>> A submit button that enables and disables according to above requirements.
-  Display relevant error messages with each input field.
+  - A submit button that enables and disables according to above requirements.
+  - Display relevant error messages with each input field.
 
-  >>>A table to append the submitted data automatically as rows.
+  - A table to append the submitted data automatically as rows.
 
