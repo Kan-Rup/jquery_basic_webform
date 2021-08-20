@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+
+
+<!--
+LICENCE
+---------------------------------------------------------------------------------------
+
+This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. 
+If a copy of the MPL was not distributed with this file, You can obtain one at 
+https://mozilla.org/MPL/2.0/.
+---------------------------------------------------------------------------------------
+
+This code comes with absolutely no warranty,
+author does not claim that the code is fit for any purpose.
+---------------------------------------------------------------------------------------
+
+Copyright (C) 2021 - Kanishka K Rupasinghe 
+---------------------------------------------------------------------------------------
+-->
+
+
+
+<html lang="">
+
+
+  <head>
+    
+    <meta charset="utf-8">
+    <title>Application Form Example</title>
+    
+    
+    <!-- JQuery file is imported here -->
+    <script type="text/javascript" src="jquery-3.6.0.min.js"> </script>
+
+    
+    <script>
+
+        //this script block defines the functionality of the form -
+        //checking if fields are filled, validating input values,
+        //adding the values to the table etc.
+    
+        $(document).ready( 
+        
+            function(){
+    
+                //set submit button to 'disabled' at the start
+                document.getElementById("submit_btn").setAttribute('disabled','disabled');
+    
+                //add the tbody section to the records table, if table does not have tbody
+                if( $("#records tbody").length == 0 ){
+                    $("#records").append("<tbody></tbody>");
+                }
+                
+                //name field - on key up (press down keyboard key then release key), 
+                //if checkAllFields function confirms everything OK, enable the submit button
+                //if checkAllFields returns false, disable submit button
+                //
+                //checkAllFields decision is same for all other fields...but the event that
+                //triggers the check varies.
+                
+                $("#nameField").keyup(
+                    
+                    function(){  
+                    
+                        if( checkAllFields() ){
+                        
+                            document.getElementById("submit_btn").removeAttribute('disabled');
+                            
+                        } else {
+                        
+                            document.getElementById("submit_btn").setAttribute('disabled','disabled');
+                        }
+                    }
+                    
+                );
+                
+                //phone field - on key up (press down keyboard key then release key), 
+                //use checkAllFields function to check if all fields are filled in correct way
+                
+                 $("#phoneField").keyup(
+                    
+                    function(){  
+                    
+                        if( checkAllFields() ){
+                        
+                            document.getElementById("submit_btn").removeAttribute('disabled');
+                            
+                        } else {
+                            
+                            document.getElementById("submit_btn").setAttribute('disabled','disabled');
+                        }
+                    }
+                    
+                );
+                
+                
+                //email field - on key up (press down keyboard key then release key), 
+                //use checkAllFields function to check if all fields are filled in correct way
+                
+                $("#emailField").keyup(
+                    
+                    function(){  
+                    
+                        if( checkAllFields() ){
+                        
+                            document.getElementById("submit_btn").removeAttribute('disabled');
+                            
+                        } else {
+                            
+                            document.getElementById("submit_btn").setAttribute('disabled','disabled');
+                        }
+                    }
+                );
+                
+                
+                //date field - here the checkAllFields check is triggered if there is a change to the
+                //value of the field.
+                //use checkAllFields function to check if all fields are filled in correct way
+                
+                $("#dateField").change(
+                    
+                    function(){  
+                    
+                        if( checkAllFields() ){
+                        
+                            document.getElementById("submit_btn").removeAttribute('disabled');
+                            
+                        } else {
+                            
+                            document.getElementById("submit_btn").setAttribute('disabled','disabled');
+                        }
+                    }
+                );
+                
+                
+                //chosen lang - here the checkAllFields check is triggered if there is a change to the
+                //value of the field.
+                //use checkAllFields function to check if all fields are filled in correct way
+                
+                $("#chosenLang").change(
+                
+                    function(){  
+                    
+                        if( checkAllFields() ){
+                        
+                            document.getElementById("submit_btn").removeAttribute('disabled');
+                            
+                        } else {
+                            
+                            document.getElementById("submit_btn").setAttribute('disabled','disabled');
+                        }
+                    }
+                    
+                );
+                
+                
+                //terms agreement - here the checkAllFields check is triggered if there is a change to the
+                //value of the field.
+                //use checkAllFields function to check if all fields are filled in correct way
+                
+                $("#termsAgreement").change(
+                
+                    function(){  
+                    
+                        if( checkAllFields() ){
+                        
+                            document.getElementById("submit_btn").removeAttribute('disabled');
+                            
+                        } else {
+                            
+                            document.getElementById("submit_btn").setAttribute('disabled','disabled');
+                        }
+                    }
+                );
+                
+                
+                
+            }
+        );
+        
+        
+    
+    
+        
+        
+        function addRecord(){
+            
+            //addRecord function takes the values input into the fields,
+            //and adds a table record into the records table.
+    
+            //getting values from the form fields
+            var nameVal = $("#nameField").val();       
+            var phoneVal = $("#phoneField").val();     
+            var emailVal = $("#emailField").val();     
+            
+            var dateVal = $("#dateField").val();       
+            var langChoice = $("#chosenLang").val();   
+    
+            //'checked' is an attribute defined at the checkbox element.
+            var agreement = $("#termsAgreement").prop("checked");  
+    
+    
+            //add the values into the table as a record.
+            $("#records tbody").append(
+                "<tr>"+
+                    "<td>"+nameVal+"</td>"+
+                    "<td>"+phoneVal+"</td>"+
+                    "<td>"+emailVal+"</td>"+
+                    "<td>"+dateVal+"</td>"+
+                    "<td>"+langChoice+"</td>"+
+                    "<td>"+agreement+"</td>"+
+                "</tr>"
+            );
+        }
+
+
+        
+        function checkAllFields(){
+        
+            //checkAllFields function makes use of the individual
+            //checkFieldFilled and validateFunctions,
+            //to check each of the fields as suitable for that field
+            //
+            //if all fields are filled, and also all fields have valid
+            //values, then confirmation to enable adding the field values
+            //to record table is returned by this function.
+            //(the function returns 'true' if all fields valid).
+        
+            var allFieldsGo = false;
+            
+            //check each field to make sure that they are filled
+            //the number input into the parameter of checkFieldFilled
+            //indicates the number of the field
+            
+            var oneFilled = checkFieldFilled(1);
+            var twoFilled = checkFieldFilled(2);
+            var threeFilled = checkFieldFilled(3);
+            var fourFilled = checkFieldFilled(4);
+            var fiveFilled = checkFieldFilled(5);
+            var sixFilled = checkFieldFilled(6);
+            
+            
+            //check each field to make sure that input values are valid.
+            
+            var oneValid = validateField(1);
+            var twoValid = validateField(2);
+            var threeValid = validateField(3);
+            var fourValid = validateField(4);
+            var fiveValid = validateField(5);
+            var sixValid = validateField(6);
+            
+            
+            //the outer if-condition is true only when oneFilled, twoFilled etc all fieldFilled 
+            //variables have the value true.
+            //this is because && 'AND' operator is used within the condition check.
+            
+            if( oneFilled && twoFilled && threeFilled && fourFilled && fiveFilled && sixFilled ){
+                        
+                        
+                //the inner if-condition is true only when oneValid, twoValid etc all fieldValid
+                //variables have the value true.
+                //again the && 'AND' operator is used in the condition.
+                
+                if( oneValid && twoValid && threeValid && fourValid && fiveValid && sixValid ){
+                
+                    allFieldsGo = true;
+                
+                } else { allFieldsGo = false; }
+                
+                //if at least one field comes up as not-valid, the enable signal is set to false.
+
+            } else { 
+        
+                allFieldsGo = false;
+                
+                //if at least one field comes up as not filled, the enable signal is set to false.
+            }
+            
+            
+            //return the check result.
+            return allFieldsGo;
+        }
+        
+        
+    
+        
+        function checkFieldFilled(fieldIndex){
+        
+            //checkFieldFilled makes use of a 'switch' statement. switch statement checks the value of a single variable
+            //and depending on the value, one of the many action statements is chosen.
+        
+        
+            var fieldFilled = false; //end signal to be returned.
+            
+            var checkedValue = "";
+            
+            
+            //fieldIndex refers to the field number (e.g. namefield is fieldIndex 1)
+            
+            switch(fieldIndex){
+            
+                case 1: 
+                    
+                    //get the value of nameField
+                    checkedValue = $("#nameField").val();
+            
+                    //if the value is not null, does not have a empty string, and is not 'undefined'
+                    if( checkedValue != null && checkedValue != "" && checkedValue != "undefined"){
+                    
+                        fieldFilled = true; //the signal to be returned is set to 'true'
+                    } 
+                
+                    break; //break out from the switch statement, no further checks done.
+                    
+                case 2: 
+                
+                    checkedValue = $("#phoneField").val();
+                
+                    if( checkedValue != null && checkedValue != "" && checkedValue != "undefined"){
+                    
+                        fieldFilled = true;
+                    }
+                    
+                    break;
+                    
+                case 3: 
+                
+                    checkedValue = $("#emailField").val();
+                
+                    if( checkedValue != null && checkedValue != "" && checkedValue != "undefined"){
+                    
+                        fieldFilled = true;
+                    } 
+                
+                    break;
+                    
+                case 4: 
+                
+                    checkedValue = $("#dateField").val();
+                
+                    //check that the value is not the default initial value for the field (YYYY-MM-DD)
+                    
+                    if( checkedValue != "YYYY-MM-DD" && checkedValue != ""){
+
+                        fieldFilled = true;
+                    } 
+                
+                    break;
+                    
+                case 5: 
+                
+                    checkedValue = $("#chosenLang").val();
+                
+                    //check that the field does not have default value, to set fieldFilled to true.
+                    if( checkedValue != "choose"){
+                    
+                        fieldFilled = true;
+                    } 
+                
+                    break;
+                    
+                case 6: 
+                
+                    //here .is(":checked"); is used to get the state of the agreement checkbox.
+                    //this value is boolean true or false.
+                    checkedValue = $("#termsAgreement").is(":checked");
+                
+                    if(checkedValue){
+                    
+                        fieldFilled = true;
+                    } 
+                
+                    break;
+                
+                
+                default: break; //default case is set the break.
+                
+            }
+            
+            return fieldFilled; //return if the checked field has been filled.
+            
+        }
+        
+        
+        function validateField(fieldIndex){
+            
+            //validateField function also uses a switch statement. in this case, the value of the field is checked against a
+            //'regex' (regular expression) string. this string specifies a text pattern that the field value will be compared 
+            //with. if the field value matches the regex pattern, validateField returns true.
+            
+            //regex is worth studying in its own. check for regex guides online.
+            //at time of writing this 'https://regex101.com/' is a handy website which can be used
+            //to check regex patterns. Once you enter the regex pattern in, there is a useful 
+            //'explanation' section which breaks down and explains the pattern for you.
+            
+            var fieldValid = false;
+            
+            switch(fieldIndex){
+            
+                case 1: 
+                   
+                    //get the value of 'nameField' into the variable checkedValue.
+                    var checkedValue = $("#nameField").val();
+                
+                    //  ^[a-z ,.'-]+$/i is a regex pattern
+                    const patternName = /^[a-z ,.'-]+$/i;
+                
+                    //compare the field value with the regex pattern
+                    //if the result is 'true'
+                    if( patternName.test(checkedValue) ){
+                    
+                        fieldValid = true; //set the return value to confirm input is valid
+                        
+                        $("#nameErrorLbl").text(""); //make the field error text blank
+                        
+                    } else { 
+                        
+                        //if the field value does not match the regex,
+                        //add the following text to the field error label.
+                        
+                        $("#nameErrorLbl").text("please enter a text name, no numbers or symbols.");
+                    }
+                
+                    break;
+                    
+                    
+                case 2: 
+                
+                    var checkedValue = $("#phoneField").val();
+                
+                    //regex pattern made for phone number. there might be a problem with this pattern
+                    //as I decided to let a optional + sign be added (for country code).
+                    //but when an optional character is possible, it could become a probelm for a field
+                    //with a character limit. The added + might make the field character limit too short
+                    //by amount of one character.
+                    const patternPhone = /^\+?[0-9]+$/i;
+                
+                    if( patternPhone.test(checkedValue) ){
+                    
+                        fieldValid = true;
+                        
+                        $("#phoneErrorLbl").text("");
+                        
+                    } else {
+                    
+                        $("#phoneErrorLbl").text("please enter a phone number, and do not use spaces");
+                    }
+                
+                    break;
+                    
+                    
+                case 3: 
+                
+                    var checkedValue = $("#emailField").val();
+                
+                    //this is a regex pattern for the email field which I found online.
+                    //it was from ( https://www.emailregex.com/ )
+                    //it is a more complex pattern.
+                    const patternEmail = /(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+                
+                    if( patternEmail.test(checkedValue) ){
+                    
+                        fieldValid = true;
+                        
+                        $("#emailErrorLbl").text("");
+                        
+                    } else {
+                    
+                        $("#emailErrorLbl").text("please enter a valid email address.");
+                    }
+                
+                    break;
+                    
+                case 4: 
+                    //no specific validation
+                    
+                    var checkedValue = $("#dateField").val();
+                
+                    //in this case the check is only done to see that date field is not blank or default value
+                    if(checkedValue != "YYYY-MM-DD" && checkedValue != ""){
+                    
+                        fieldValid = true;
+                        
+                        $("#dateErrorLbl").text("");
+                        
+                    } else {
+                    
+                        $("#dateErrorLbl").text("please select a date.");
+                    }
+                    
+                    break;
+                    
+                case 5: 
+                    
+                    var checkedValue = $("#chosenLang").val();
+                
+                    //valid as long as default value is not chosen
+                
+                    if(checkedValue != "choose"){
+                    
+                        fieldValid = true;
+                        
+                        $("#langErrorLbl").text("");
+                        
+                    } else {  
+                    
+                        $("#langErrorLbl").text("please select a language.");
+                    }
+                
+                    break;
+                    
+                case 6: 
+                    
+                    //valid as long as the box is ticked.
+                    
+                    var checkedValue = $("#termsAgreement").is(":checked");
+                
+                    if(checkedValue){
+                    
+                        fieldValid = true;
+                        
+                        $("#termsErrorLbl").text("");
+                        
+                    } else { 
+                    
+                        $("#termsErrorLbl").text("please agree to the application terms.");
+                    
+                    }
+                
+                    break;
+                    
+                default: break;
+                
+            }
+            
+            return fieldValid;
+        }
+        
+        
+        
+        
+    </script>
+    
+    
+    
+    <!--CSS styling for the html page-->
+    <style>
+    
+        /* the table */
+        table, th, td {
+            border : 1px solid black;    
+            color: blue;
+        }
+        
+        table, thead{
+            background-color:#8ea7f6;
+        }
+        
+        table, td{
+            color:green; background-color:#bdf7ea;
+        }
+        
+        
+        /*input field and label - layout, colouring*/
+        .fieldLbl {
+        
+            padding: 20px 0 20px 0px;
+            
+            width: 220px;
+            
+            background-color: #7ad0f5;
+            
+            float:left;
+        }
+        
+        .fieldContainer{
+        
+            min-width: 100%;
+            
+            background-color: #b1e7f0;
+            
+            display:inline-block;
+        }
+        
+        /* small error text */
+        .errorLbl{
+        
+            font-size:11px;
+        }
+        
+        /* submit button text */
+        #submit_btn{
+            
+            color:green;
+            font-weight:bold;
+        }
+        
+    </style>
+    
+    
+  </head>
+  
+  
+  
+  <body>
+  
+    <header></header>
+    
+    <main>
+
+    <!-- have to use onsubmit return false, otherwise the form resets itself on submit-button click -->
+    <form name="input_fields" onsubmit="return false">
+    
+    
+        <!--enter name-->
+        
+        <div class="fieldContainer">
+        
+            <div class="fieldLbl"> <label>Name:</label> </div>
+            
+            <input id="nameField" type="text" maxlength="100" required validation >
+            <label class="errorLbl" id="nameErrorLbl"></label>
+        
+        </div>
+        
+        
+        <!--enter phone number-->
+        <div class="fieldContainer">
+        
+            <div class="fieldLbl"> <label>Phone Number:</label> </div>
+            
+            <input id="phoneField" type="text" maxlength="10" required validation >
+            <label class="errorLbl" id="phoneErrorLbl"></label>
+            
+        </div>
+        
+        
+        <!--enter phone number-->
+        <div class="fieldContainer">
+        
+            <div class="fieldLbl"> <label>Email Address:</label> </div>
+            
+            <input id="emailField" type="email" required validation >
+            <label class="errorLbl" id="emailErrorLbl"></label>
+            
+        </div>
+        
+        <br>
+        <br>
+        
+        
+        <!--select date from a date menu-->
+        <div class="fieldContainer">
+        
+            <div class="fieldLbl"> <label >Date Applying:</label> </div>
+            
+            <input id="dateField" type="date" required validation >
+            <label class="errorLbl" id="dateErrorLbl"></label>
+        
+        </div>
+        
+        <br>
+        <br>
+        
+        <div class="fieldContainer">
+        
+            <div class="fieldLbl"> <label>Preferred Language:</label> </div>
+            
+            <!--select language dropdown-->
+            <select id="chosenLang" name="Languages" required>
+                <option value="choose"> -Choose Language- </option>
+                <option value="english"> English </option>
+                <option value="french"> French </option>
+                <option value="spanish"> Spanish </option>
+            </select>
+            
+            <label class="errorLbl" id="langErrorLbl"></label>
+        
+        </div>
+        
+        <br>
+        <br>
+        
+        <!--agree to terms checkbox-->
+        <div class="fieldContainer">
+        
+            <div class="fieldLbl"> <label>Agree to terms:</label> </div>
+            
+            <input id="termsAgreement" type="checkbox" required validation >
+            <label class="errorLbl" id="termsErrorLbl"></label>
+        
+        </div>
+        
+        <br>
+        <br>
+        
+        <!--submit details button-->
+        <button id="submit_btn" type="submit" onclick="addRecord()">Submit Details</button>
+    
+    
+    </form>
+
+        <br>
+        <br>
+    
+    
+    
+    <!-- the table holds the input values as record rows -->
+    <table id="records" class="table">
+        
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Email Address</th>
+                <th>Date Applying</th>
+                <th>Preferred Language</th>
+                <th>Agreed to terms</th>
+            </tr>
+        </thead>
+        
+        <!--this is needed to hold data records-->
+        <tbody> </tbody>
+        
+    </table>
+    
+    
+    
+    </main>
+
+    <footer></footer>
+    
+  </body>
+
+</html>
